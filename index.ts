@@ -94,3 +94,46 @@ const normalizeData = (unnormalizedData: Post[]) : NormalizedPosts => {
    *    allIds: ['62e69d5a5458aac0ed320b35', '62e69d5a5458aac0ed320b1c', ...]
    * }
    */
+
+
+
+
+  const COMMENTS_URL = 'https://jsonplaceholder.typicode.com/comments';
+
+  interface Comment {
+    body: string,
+    email: string,
+    id: number,
+    name: string,
+    postId: number
+  }
+
+const getData = async (url : string) : Promise<Comment[]> => {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status}`);
+        }
+        const data: Comment[] = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+        return [];
+      }
+    
+}
+
+getData(COMMENTS_URL)
+.then(data => {
+    data.forEach(comment => {
+      console.log(`ID: ${comment.id}, Email: ${comment.email}`);
+    });
+  });
+
+/**
+ * ID: 1, Email: Eliseo...
+ * ID: 2, Email: Jayne_Kuhic...
+ * ID: 3, Email: Nikita...
+ * ID: 4, Email: Lew...
+ * ...
+ */
