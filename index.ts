@@ -25,7 +25,7 @@ interface TotalPriceOptions {
   console.log(total);
 
 
-
+  //task 2
   const posts = [
     {
       id: '62e69d5a5458aac0ed320b35',
@@ -80,3 +80,33 @@ interface TotalPriceOptions {
   };
   
   console.log(normalizeData(posts));
+
+
+//task 3
+
+  const COMMENTS_URL = 'https://jsonplaceholder.typicode.com/comments';
+
+interface IComment {
+  postId: number
+  id: number
+  name: string
+  email: string
+  body: string
+};
+
+const getData = <T>(url: string): Promise<T> => {
+  return fetch(url)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Something went wrong');
+      }
+      return res.json();
+    });
+};
+
+getData<IComment[]>(COMMENTS_URL)
+	.then(data => {
+    data.forEach(({ id, email }) => {
+      console.log(`ID: ${id}, Email: ${email}`);
+    });
+  });
